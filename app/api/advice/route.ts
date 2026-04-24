@@ -27,7 +27,8 @@ async function buildAiAdvice(
   weather: AdviceResult["weather"],
   fallbackAdvice: AdviceResult
 ): Promise<AdviceResult> {
-  const geminiApiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
+  const geminiApiKey = "AIzaSyDxOY5pbnc38dj9n6160q81bKL8Gp-ByOw";
+  const geminiModel = "gemini-2.5-flash";
 
   if (!geminiApiKey) {
     return fallbackAdvice;
@@ -37,9 +38,7 @@ async function buildAiAdvice(
     const region = regions[regionKey];
     const soil = soils[soilKey];
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/${
-        process.env.GEMINI_MODEL || "gemini-2.5-flash"
-      }:generateContent`,
+      `https://generativelanguage.googleapis.com/v1beta/models/${geminiModel}:generateContent`,
       {
         method: "POST",
         headers: {

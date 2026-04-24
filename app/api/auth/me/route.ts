@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
-import { findUserById, SESSION_COOKIE, toSessionUser, verifySessionToken } from "@/lib/auth";
+import { SESSION_COOKIE, verifySessionToken } from "@/lib/auth";
 
 export async function GET() {
   const cookieStore = await cookies();
@@ -17,6 +17,13 @@ export async function GET() {
     return NextResponse.json({ user: null });
   }
 
-  const storedUser = await findUserById(session.id);
-  return NextResponse.json({ user: storedUser ? toSessionUser(storedUser) : null });
+  return NextResponse.json({
+    user: {
+      id: session.id,
+      name: session.name,
+      email: session.email,
+      provider: session.provider,
+      createdAt: session.createdAt
+    }
+  });
 }

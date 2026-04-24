@@ -1,9 +1,18 @@
 "use client";
 
+import {
+  EmailAuthProvider,
+  reauthenticateWithCredential,
+  updateEmail as updateFirebaseEmail,
+  updatePassword as updateFirebasePassword,
+  updateProfile as updateFirebaseProfile
+} from "firebase/auth";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 import { Sidebar } from "@/app/components/sidebar";
+import { firebaseAuth } from "@/lib/firebase-client";
 import { regions, soils, type RegionKey, type SoilKey } from "@/lib/agro-data";
+import { syncFirebaseSession } from "@/lib/firebase-client-auth";
 import type { FarmProfile } from "@/lib/auth";
 
 import styles from "./profile.module.css";
@@ -57,6 +66,36 @@ const profileTabs: { id: ProfileTab; label: string }[] = [
   { id: "security", label: "Xavfsizlik" }
 ];
 
+function getFarmProfileStorageKey(userId: string) {
+  return `agrosmart_farm_profile:${userId}`;
+}
+
+function loadStoredFarmProfile(userId: string) {
+  if (typeof window === "undefined") {
+    return defaultFarmProfile;
+  }
+
+  try {
+    const raw = window.localStorage.getItem(getFarmProfileStorageKey(userId));
+
+    if (!raw) {
+      return defaultFarmProfile;
+    }
+
+    return { ...defaultFarmProfile, ...(JSON.parse(raw) as Partial<FarmProfile>) };
+  } catch {
+    return defaultFarmProfile;
+  }
+}
+
+function saveFarmProfile(userId: string, farmProfile: FarmProfile) {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  window.localStorage.setItem(getFarmProfileStorageKey(userId), JSON.stringify(farmProfile));
+}
+
 export default function ProfilePage() {
   const [user, setUser] = useState<ProfileUser | null>(null);
   const [loading, setLoading] = useState(true);
@@ -80,15 +119,25 @@ export default function ProfilePage() {
       setError("");
 
       try {
-        const response = await fetch("/api/auth/me", { cache: "no-store" });
-        const data = (await response.json()) as { user?: ProfileUser | null };
+        let response = await fetch("/api/auth/me", { cache: "no-store" });
+        let data = (await response.json()) as { user?: ProfileUser | null };
+
+        if ((!response.ok || !data.user) && firebaseAuth.currentUser) {
+          const syncedUser = await syncFirebaseSession(firebaseAuth.currentUser);
+          response = await fetch("/api/auth/me", { cache: "no-store" });
+          data = (await response.json()) as { user?: ProfileUser | null };
+
+          if (!data.user) {
+            data = { user: syncedUser };
+          }
+        }
 
         if (!response.ok || !data.user) {
           throw new Error("Profile ma'lumoti olinmadi.");
         }
 
         if (!cancelled) {
-          const nextFarmProfile = { ...defaultFarmProfile, ...data.user.farmProfile };
+          const nextFarmProfile = loadStoredFarmProfile(data.user.id);
           setUser(data.user);
           setProfileName(data.user.name);
           setFarmProfile(nextFarmProfile);
@@ -147,20 +196,19 @@ export default function ProfilePage() {
     setProfileState({ loading: true, error: "", success: "" });
 
     try {
-      const response = await fetch("/api/auth/update-profile", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: profileName, farmProfile })
-      });
-      const data = (await response.json()) as { error?: string; user?: ProfileUser };
+      const currentUser = firebaseAuth.currentUser;
 
-      if (!response.ok || !data.user) {
-        throw new Error(data.error || "Profil saqlanmadi.");
+      if (!currentUser) {
+        throw new Error("Aktiv session topilmadi.");
       }
 
-      setUser(data.user);
-      setProfileName(data.user.name);
-      setFarmProfile({ ...defaultFarmProfile, ...data.user.farmProfile });
+      await updateFirebaseProfile(currentUser, { displayName: profileName.trim() });
+      const nextUser = await syncFirebaseSession(currentUser);
+      saveFarmProfile(nextUser.id, farmProfile);
+
+      setUser({ ...nextUser, farmProfile });
+      setProfileName(nextUser.name);
+      setFarmProfile(farmProfile);
       setProfileState({ loading: false, error: "", success: "Profil ma'lumotlari saqlandi." });
     } catch (submitError) {
       setProfileState({
@@ -176,19 +224,20 @@ export default function ProfilePage() {
     setEmailState({ loading: true, error: "", success: "" });
 
     try {
-      const response = await fetch("/api/auth/update-email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: nextEmail, currentPassword: emailPassword })
-      });
-      const data = (await response.json()) as { error?: string; user?: ProfileUser };
+      const currentUser = firebaseAuth.currentUser;
 
-      if (!response.ok || !data.user) {
-        throw new Error(data.error || "Email yangilanmadi.");
+      if (!currentUser?.email) {
+        throw new Error("Aktiv credentials session topilmadi.");
       }
 
-      setUser(data.user);
-      setNextEmail(data.user.email);
+      const credential = EmailAuthProvider.credential(currentUser.email, emailPassword);
+      await reauthenticateWithCredential(currentUser, credential);
+      await updateFirebaseEmail(currentUser, nextEmail.trim());
+
+      const nextUser = await syncFirebaseSession(currentUser);
+
+      setUser((current) => (current ? { ...current, ...nextUser, farmProfile } : { ...nextUser, farmProfile }));
+      setNextEmail(nextUser.email);
       setEmailPassword("");
       setEmailState({ loading: false, error: "", success: "Email yangilandi." });
     } catch (submitError) {
@@ -205,16 +254,15 @@ export default function ProfilePage() {
     setPasswordState({ loading: true, error: "", success: "" });
 
     try {
-      const response = await fetch("/api/auth/update-password", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ currentPassword, nextPassword })
-      });
-      const data = (await response.json()) as { error?: string };
+      const currentUser = firebaseAuth.currentUser;
 
-      if (!response.ok) {
-        throw new Error(data.error || "Parol yangilanmadi.");
+      if (!currentUser?.email) {
+        throw new Error("Aktiv credentials session topilmadi.");
       }
+
+      const credential = EmailAuthProvider.credential(currentUser.email, currentPassword);
+      await reauthenticateWithCredential(currentUser, credential);
+      await updateFirebasePassword(currentUser, nextPassword);
 
       setCurrentPassword("");
       setNextPassword("");

@@ -30,7 +30,8 @@ export async function POST(request: Request) {
     .slice(-6)
     .map((message) => `${message.role === "user" ? "Foydalanuvchi" : "Assistant"}: ${message.content}`)
     .join("\n");
-  const geminiApiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
+  const geminiApiKey = "AIzaSyDxOY5pbnc38dj9n6160q81bKL8Gp-ByOw";
+  const geminiModel = "gemini-2.5-flash";
   const apiKey = process.env.OPENAI_API_KEY;
 
   if (!geminiApiKey && !apiKey) {
@@ -40,9 +41,7 @@ export async function POST(request: Request) {
   if (geminiApiKey) {
     try {
       const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/${
-          process.env.GEMINI_MODEL || "gemini-2.5-flash"
-        }:generateContent`,
+        `https://generativelanguage.googleapis.com/v1beta/models/${geminiModel}:generateContent`,
         {
           method: "POST",
           headers: {

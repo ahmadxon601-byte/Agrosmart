@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
+import { firebaseAuth } from "@/lib/firebase-client";
+
 const sidebarItems = [
   {
     href: "/",
@@ -108,6 +110,7 @@ export function Sidebar() {
   }, []);
 
   async function handleLogout() {
+    await firebaseAuth.signOut().catch(() => undefined);
     await fetch("/api/auth/logout", { method: "POST" }).catch(() => undefined);
     router.replace("/auth");
     router.refresh();
