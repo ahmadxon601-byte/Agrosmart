@@ -1,0 +1,323 @@
+.page {
+  display: grid;
+  gap: 18px;
+  min-width: 0;
+  min-height: 0;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 18px;
+  padding: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 30px;
+  background:
+    radial-gradient(circle at 84% 18%, rgba(199, 255, 52, 0.34), transparent 18%),
+    radial-gradient(circle at 18% 74%, rgba(244, 196, 83, 0.16), transparent 24%),
+    linear-gradient(135deg, #183522 0%, #315f35 48%, #8fae62 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    0 24px 48px rgba(18, 33, 24, 0.12);
+}
+
+.kicker {
+  display: inline-flex;
+  margin: 0 0 14px;
+  padding: 8px 14px;
+  color: rgba(248, 245, 223, 0.9);
+  background: rgba(5, 8, 7, 0.18);
+  border: 1px solid rgba(248, 245, 223, 0.14);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.title {
+  max-width: 760px;
+  margin: 0 0 12px;
+  color: #f8f5df;
+  font-size: clamp(40px, 5vw, 64px);
+  line-height: 0.96;
+  letter-spacing: -0.07em;
+}
+
+.description {
+  max-width: 620px;
+  margin: 0;
+  color: rgba(248, 245, 223, 0.82);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.controlPanel {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  background: rgba(231, 243, 229, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 24px;
+  backdrop-filter: blur(18px);
+}
+
+.selectField {
+  display: grid;
+  gap: 8px;
+}
+
+.selectField span {
+  color: rgba(248, 245, 223, 0.74);
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.selectField select {
+  min-height: 52px;
+  padding: 0 14px;
+  color: #f8f5df;
+  background:
+    radial-gradient(circle at 88% 18%, rgba(199, 255, 52, 0.12), transparent 28%),
+    linear-gradient(135deg, rgba(49, 95, 53, 0.96), rgba(22, 46, 29, 0.92));
+  border: 1px solid rgba(199, 255, 52, 0.24);
+  border-radius: 18px;
+  outline: none;
+}
+
+.topGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) 360px;
+  gap: 18px;
+}
+
+.leadCard,
+.weatherCard,
+.summaryCard,
+.sideCard {
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: rgba(230, 243, 229, 0.84);
+  backdrop-filter: blur(20px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    0 18px 36px rgba(18, 33, 24, 0.08);
+}
+
+.leadCard,
+.weatherCard,
+.summaryCard,
+.sideCard {
+  padding: 22px;
+  border-radius: 28px;
+}
+
+.leadCard small,
+.weatherCard small,
+.sectionHead p,
+.noteList small,
+.infoCard small {
+  display: block;
+  margin: 0 0 10px;
+  color: rgba(11, 21, 17, 0.5);
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.leadCard strong {
+  display: block;
+  margin-bottom: 10px;
+  color: #10200f;
+  font-size: 40px;
+  line-height: 0.96;
+  letter-spacing: -0.06em;
+}
+
+.leadCard p,
+.infoCard p,
+.cropItem p,
+.noteList p {
+  margin: 0;
+  color: rgba(11, 21, 17, 0.7);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.badgeRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.badgeRow span {
+  padding: 8px 10px;
+  color: #f8f5df;
+  background: rgba(17, 35, 24, 0.84);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.weatherStats {
+  display: grid;
+  gap: 10px;
+}
+
+.weatherStats div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.56);
+}
+
+.weatherStats span {
+  color: rgba(11, 21, 17, 0.58);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.weatherStats strong {
+  color: #10200f;
+  font-size: 26px;
+  letter-spacing: -0.04em;
+}
+
+.contentGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) 360px;
+  gap: 18px;
+}
+
+.sectionHead {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.sectionHead h2 {
+  margin: 0;
+  color: #10200f;
+  font-size: 30px;
+  line-height: 1;
+  letter-spacing: -0.05em;
+}
+
+.cardGrid,
+.cropList,
+.noteList,
+.sideColumn {
+  display: grid;
+  gap: 12px;
+}
+
+.infoCard,
+.cropItem,
+.noteList div {
+  padding: 16px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.56);
+  border: 1px solid rgba(18, 42, 31, 0.08);
+}
+
+.infoCard strong,
+.cropItem strong {
+  display: block;
+  margin-bottom: 8px;
+  color: #10200f;
+  font-size: 22px;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.cropItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.goodBadge,
+.waitBadge {
+  padding: 8px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.goodBadge {
+  color: #183015;
+  background: rgba(199, 255, 52, 0.44);
+}
+
+.waitBadge {
+  color: #4d3d10;
+  background: rgba(244, 196, 83, 0.4);
+}
+
+.noteList {
+  counter-reset: steps;
+}
+
+.noteList div {
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  gap: 12px;
+  align-items: start;
+}
+
+.noteList small {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  margin: 0;
+  color: #f8f5df;
+  background: linear-gradient(135deg, #315f35, #102019);
+  border-radius: 999px;
+}
+
+.error {
+  margin: 14px 0 0;
+  padding: 12px 14px;
+  color: #6b2a1e;
+  background: rgba(255, 233, 224, 0.86);
+  border: 1px solid rgba(161, 59, 34, 0.14);
+  border-radius: 16px;
+  font-weight: 700;
+}
+
+@media (max-width: 1200px) {
+  .hero,
+  .topGrid,
+  .contentGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .hero,
+  .leadCard,
+  .weatherCard,
+  .summaryCard,
+  .sideCard {
+    padding: 18px;
+  }
+
+  .title {
+    font-size: clamp(34px, 10vw, 50px);
+  }
+
+  .noteList div {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,670 @@
+.page {
+  position: relative;
+  height: 100%;
+  min-height: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) 360px;
+  gap: 14px;
+  height: calc(100dvh - 40px);
+  min-height: calc(100dvh - 40px);
+  padding: 14px;
+  overflow: hidden;
+  color: #f8f5df;
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 22px 44px rgba(18, 33, 24, 0.14);
+  background:
+    linear-gradient(180deg, rgba(9, 24, 17, 0.18), rgba(9, 24, 17, 0.08)),
+    radial-gradient(circle at 78% 18%, rgba(199, 255, 52, 0.36), transparent 20%),
+    radial-gradient(circle at 16% 74%, rgba(244, 196, 83, 0.14), transparent 24%),
+    linear-gradient(135deg, #173321 0%, #315f35 48%, #8db45d 100%);
+}
+
+.heroGlow {
+  position: absolute;
+  inset: auto -6% -14% 52%;
+  width: 48%;
+  height: 62%;
+  background: radial-gradient(circle, rgba(231, 255, 170, 0.56) 0%, rgba(199, 255, 52, 0.2) 38%, transparent 72%);
+  filter: blur(28px);
+  opacity: 0.72;
+  pointer-events: none;
+}
+
+.heroStorm {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(100deg, rgba(255, 255, 255, 0.08), transparent 34%),
+    repeating-linear-gradient(100deg, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 18px),
+    radial-gradient(circle at 40% 24%, rgba(248, 245, 223, 0.08), transparent 16%);
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.leftPane,
+.rightPane {
+  position: relative;
+  min-height: 0;
+}
+
+.leftPane {
+  z-index: 6;
+}
+
+.rightPane {
+  z-index: 2;
+}
+
+.leftPane {
+  display: grid;
+  grid-template-rows: auto auto auto 1fr;
+  align-content: start;
+}
+
+.topline {
+  position: relative;
+  z-index: 8;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 230px;
+  gap: 14px;
+  align-items: start;
+}
+
+.eyebrow {
+  display: inline-flex;
+  width: fit-content;
+  margin: 0 0 12px;
+  padding: 8px 14px;
+  color: rgba(248, 245, 223, 0.92);
+  background: rgba(5, 8, 7, 0.16);
+  border: 1px solid rgba(248, 245, 223, 0.14);
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.title {
+  max-width: 620px;
+  margin: 0 0 10px;
+  color: #fffdf1;
+  font-size: clamp(42px, 5vw, 62px);
+  line-height: 0.98;
+  letter-spacing: -0.08em;
+}
+
+.description {
+  max-width: 580px;
+  margin: 0;
+  color: rgba(248, 245, 223, 0.82);
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+.regionPicker {
+  position: relative;
+  z-index: 30;
+  isolation: isolate;
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 24px;
+  backdrop-filter: blur(16px);
+}
+
+.regionPickerOpen {
+  z-index: 120;
+}
+
+.heroMenuOpen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 70;
+  pointer-events: none;
+  background: transparent;
+}
+
+.heroMenuOpen .primaryTempCard,
+.heroMenuOpen .quickInfoCard,
+.heroMenuOpen .focusCard,
+.heroMenuOpen .sideCard,
+.heroMenuOpen .dayPill,
+.heroMenuOpen .insightPanel {
+  pointer-events: none;
+}
+
+.regionPicker span {
+  color: rgba(248, 245, 223, 0.74);
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.regionButton {
+  width: 100%;
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 14px;
+  color: #f8f5df;
+  background:
+    radial-gradient(circle at 88% 18%, rgba(199, 255, 52, 0.14), transparent 30%),
+    linear-gradient(135deg, rgba(49, 95, 53, 0.96), rgba(22, 46, 29, 0.92));
+  border: 1px solid rgba(199, 255, 52, 0.22);
+  border-radius: 18px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 8px 22px rgba(8, 18, 14, 0.14);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease,
+    border-color 160ms ease,
+    background 160ms ease;
+}
+
+.regionButton:hover {
+  transform: translateY(-1px);
+  border-color: rgba(199, 255, 52, 0.34);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 14px 28px rgba(8, 18, 14, 0.18);
+}
+
+.regionButton strong {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.regionChevron {
+  display: grid;
+  width: 20px;
+  height: 20px;
+  place-items: center;
+  color: rgba(248, 245, 223, 0.88);
+  transition: transform 160ms ease;
+}
+
+.regionChevronOpen {
+  transform: rotate(180deg);
+}
+
+.regionMenu {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  right: 0;
+  z-index: 130;
+  isolation: isolate;
+  display: grid;
+  gap: 6px;
+  max-height: 320px;
+  padding: 10px 6px 10px 10px;
+  overflow: hidden auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(199, 255, 52, 0.32) transparent;
+  background:
+    linear-gradient(180deg, rgba(37, 71, 46, 0.98), rgba(18, 37, 25, 0.98));
+  border: 1px solid rgba(199, 255, 52, 0.18);
+  border-radius: 22px;
+  clip-path: inset(0 round 22px);
+  backdrop-filter: blur(18px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 10px 20px rgba(7, 15, 12, 0.16);
+}
+
+.regionMenu::-webkit-scrollbar {
+  width: 8px;
+}
+
+.regionMenu::-webkit-scrollbar-track {
+  margin: 12px 0 12px 4px;
+  background: transparent;
+  border-radius: 999px;
+}
+
+.regionMenu::-webkit-scrollbar-thumb {
+  background: rgba(199, 255, 52, 0.32);
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background-clip: padding-box;
+}
+
+.regionOption {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  padding: 12px 14px;
+  color: rgba(248, 245, 223, 0.82);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 16px;
+  background-clip: padding-box;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+  transition:
+    transform 160ms ease,
+    background 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease;
+}
+
+.regionOption:hover {
+  color: #fffdf1;
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.regionOptionActive {
+  color: #10200f;
+  background:
+    radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.24), transparent 24%),
+    linear-gradient(135deg, #d5ff63, #b8ef44);
+  border-color: rgba(199, 255, 52, 0.24);
+}
+
+.metricRow {
+  display: grid;
+  grid-template-columns: minmax(0, 340px) minmax(0, 1fr);
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.primaryTempCard,
+.quickInfoCard,
+.focusCard,
+.sideCard {
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(231, 243, 229, 0.18);
+  backdrop-filter: blur(20px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 10px 24px rgba(18, 33, 24, 0.08);
+}
+
+.primaryTempCard {
+  padding: 18px;
+  border-radius: 26px;
+}
+
+.primaryTempCard small,
+.quickInfoCard small,
+.sideCard small {
+  display: block;
+  margin-bottom: 10px;
+  color: rgba(248, 245, 223, 0.66);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.primaryTempCard strong {
+  display: block;
+  margin-bottom: 12px;
+  font-size: 64px;
+  line-height: 0.95;
+  letter-spacing: -0.08em;
+}
+
+.metricMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.metricMeta span {
+  padding: 8px 10px;
+  color: rgba(248, 245, 223, 0.88);
+  background: rgba(5, 8, 7, 0.18);
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.quickInfoCard {
+  align-self: end;
+  padding: 18px;
+  border-radius: 26px;
+}
+
+.quickInfoCard strong {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 30px;
+  line-height: 1;
+  letter-spacing: -0.05em;
+}
+
+.quickInfoCard p {
+  max-width: 420px;
+  margin: 0;
+  color: rgba(248, 245, 223, 0.8);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.dayStrip {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.dayPill {
+  display: grid;
+  gap: 6px;
+  min-height: 78px;
+  padding: 12px 10px;
+  color: rgba(248, 245, 223, 0.9);
+  background: rgba(231, 243, 229, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 22px;
+  cursor: pointer;
+  text-align: left;
+  transition:
+    transform 180ms ease,
+    background 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.dayPill:hover,
+.dayPillActive {
+  transform: translateY(-2px);
+  background:
+    radial-gradient(circle at 50% 18%, rgba(199, 255, 52, 0.22), transparent 62%),
+    rgba(248, 245, 223, 0.16);
+  border-color: rgba(199, 255, 52, 0.24);
+  box-shadow: 0 18px 32px rgba(11, 21, 17, 0.14);
+}
+
+.dayPill span {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.dayPill strong {
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: -0.06em;
+}
+
+.dayPill small {
+  font-size: 16px;
+}
+
+.insightPanel {
+  position: relative;
+  align-self: end;
+  min-height: 88px;
+  margin-top: 14px;
+  padding: 14px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 24px;
+  background:
+    linear-gradient(135deg, rgba(14, 34, 23, 0.34), rgba(248, 245, 223, 0.08)),
+    rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+}
+
+.insightPanel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 86% 24%, rgba(199, 255, 52, 0.18), transparent 18%),
+    linear-gradient(100deg, rgba(255, 255, 255, 0.06), transparent 34%);
+  pointer-events: none;
+}
+
+.insightHeader,
+.insightGrid {
+  position: relative;
+  z-index: 1;
+}
+
+.insightHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.insightHeader span {
+  color: rgba(248, 245, 223, 0.62);
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.insightHeader strong {
+  color: #f8f5df;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.insightGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.insightCard {
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(10px);
+}
+
+.insightCard small {
+  display: block;
+  margin-bottom: 8px;
+  color: rgba(248, 245, 223, 0.6);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.insightCard strong {
+  display: block;
+  color: #f8f5df;
+  font-size: 20px;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.insightCard p {
+  margin: 8px 0 0;
+  color: rgba(248, 245, 223, 0.74);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.rightPane {
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  gap: 12px;
+  overflow: hidden;
+}
+
+.focusCard {
+  padding: 18px;
+  border-radius: 28px;
+}
+
+.focusHead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.focusDot {
+  width: 10px;
+  height: 10px;
+  background: #d7ff5f;
+  border-radius: 999px;
+  box-shadow: 0 0 18px rgba(215, 255, 95, 0.8);
+}
+
+.focusHead p {
+  margin: 0;
+  color: rgba(248, 245, 223, 0.88);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.focusTemp {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.focusTemp strong {
+  font-size: 68px;
+  line-height: 0.9;
+  letter-spacing: -0.08em;
+}
+
+.focusTemp span {
+  font-size: 34px;
+}
+
+.focusStats {
+  display: grid;
+  gap: 8px;
+}
+
+.focusStats span {
+  padding: 9px 12px;
+  color: rgba(248, 245, 223, 0.88);
+  background: rgba(5, 8, 7, 0.18);
+  border-radius: 16px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.sideList {
+  display: grid;
+  gap: 10px;
+  min-height: 0;
+}
+
+.sideCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 16px;
+  border-radius: 24px;
+}
+
+.sideCard strong {
+  display: block;
+  font-size: 26px;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.sideCard p {
+  margin: 6px 0 0;
+  color: rgba(248, 245, 223, 0.74);
+  font-size: 13px;
+}
+
+.sideTemp {
+  display: grid;
+  justify-items: end;
+  gap: 6px;
+}
+
+.sideTemp span {
+  font-size: 22px;
+}
+
+.sideTemp strong {
+  font-size: 38px;
+}
+
+.error {
+  margin: 14px 0 0;
+  padding: 12px 14px;
+  color: #6b2a1e;
+  background: rgba(255, 233, 224, 0.86);
+  border: 1px solid rgba(161, 59, 34, 0.14);
+  border-radius: 16px;
+  font-weight: 700;
+}
+
+@media (max-width: 1200px) {
+  .hero {
+    grid-template-columns: 1fr;
+    height: auto;
+    min-height: calc(100dvh - 40px);
+    overflow: auto;
+  }
+
+  .rightPane {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .topline,
+  .metricRow,
+  .dayStrip {
+    grid-template-columns: 1fr;
+  }
+
+  .title {
+    font-size: clamp(42px, 10vw, 58px);
+  }
+}
+
+@media (max-width: 680px) {
+  .page {
+    min-height: auto;
+    height: auto;
+    overflow: visible;
+  }
+
+  .hero {
+    min-height: auto;
+    padding: 12px;
+    height: auto;
+    overflow: visible;
+  }
+
+  .focusTemp strong {
+    font-size: 58px;
+  }
+
+  .insightGrid {
+    grid-template-columns: 1fr;
+  }
+}
